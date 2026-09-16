@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#050505">
+
+<title>Je veux ma part | Master Class</title>
+
+<style>
+
+/* ================= RESET ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #050505;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+
+/* ================= LOADER ================= */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .7s ease, visibility .7s ease;
+}
+
+#loader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-logo {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    animation: pulse 1.5s infinite;
+}
+
+.loader-logo span {
+    color: #f5b400;
+}
+
+.loader-line {
+    width: 130px;
+    height: 3px;
+    margin-top: 25px;
+    background: #222;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.loader-line::after {
+    content: "";
+    display: block;
+    width: 45%;
+    height: 100%;
+    background: #f5b400;
+    animation: loading 1.2s infinite;
+}
+
+
+/* ================= BACKGROUND ================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    top: -120px;
+    right: -120px;
+    background: rgba(245,180,0,.08);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    left: -100px;
+    background: rgba(245,180,0,.05);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+
+/* ================= HEADER ================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5,5,5,.75);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.brand {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.brand span {
+    color: #f5b400;
+}
+
+.header-badge {
+    padding: 8px 13px;
+    border: 1px solid rgba(245,180,0,.4);
+    border-radius: 30px;
+    color: #f5b400;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    min-height: 100vh;
+    padding: 130px 6% 70px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-container {
+    width: 100%;
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 9px 15px;
+    margin-bottom: 22px;
+    border-radius: 30px;
+    background: rgba(245,180,0,.1);
+    border: 1px solid rgba(245,180,0,.35);
+    color: #f5b400;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.hero h1 {
+    font-size: clamp(45px,7vw,82px);
+    line-height: .95;
+    font-weight: 950;
+    letter-spacing: -3px;
+}
+
+.hero h1 span {
+    color: #f5b400;
+}
+
+.hero-text {
+    max-width: 580px;
+    margin-top: 25px;
+    color: #b9b9b9;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.hero-button {
+    margin-top: 35px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 17px 25px;
+    background: #f5b400;
+    color: #050505;
+    border: none;
+    border-radius: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 15px 35px rgba(245,180,0,.15);
+}
+
+.hero-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(245,180,0,.25);
+}
+
+
+/* ================= IMAGE 1 ================= */
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.image-card {
+    position: relative;
+    width: min(100%,360px);
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 30px 80px rgba(0,0,0,.65);
+    animation: floating 5s ease-in-out infinite;
+}
+
+.image-card img {
+    width: 100%;
+    height: 540px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 50px 25px 25px;
+    background: linear-gradient(transparent,rgba(0,0,0,.92));
+}
+
+.image-overlay strong {
+    display: block;
+    font-size: 20px;
+}
+
+.image-overlay small {
+    color: #ccc;
+}
+
+
+/* ================= SECTIONS ================= */
+
+.section {
+    padding: 100px 6%;
+}
+
+.section-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: clamp(32px,5vw,55px);
+    line-height: 1.05;
+    font-weight: 900;
+}
+
+.section-title span {
+    color: #f5b400;
+}
+
+.section-subtitle {
+    max-width: 650px;
+    margin-top: 15px;
+    color: #999;
+    line-height: 1.7;
+}
+
+
+/* ================= FEATURES ================= */
+
+.features {
+    margin-top: 55px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.feature {
+    padding: 30px;
+    background: #0d0d0d;
+    border: 1px solid #1d1d1d;
+    border-radius: 18px;
+    transition: .4s;
+}
+
+.feature:hover {
+    transform: translateY(-8px);
+    border-color: rgba(245,180,0,.45);
+}
+
+.feature-number {
+    color: #f5b400;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.feature h3 {
+    margin-top: 18px;
+    font-size: 21px;
+}
+
+.feature p {
+    margin-top: 12px;
+    color: #929292;
+    line-height: 1.6;
+}
+
+
+/* ================= IMAGE 2 ================= */
+
+.second-image {
+    margin-top: 75px;
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.second-image .photo {
+    overflow: hidden;
+    border-radius: 25px;
+    border: 1px solid #222;
+}
+
+.second-image img {
+    width: 100%;
+    height: 560px;
+    object-fit: cover;
+    display: block;
+    transition: transform .8s ease;
+}
+
+.second-image .photo:hover img {
+    transform: scale(1.04);
+}
+
+.second-content h3 {
+    font-size: 35px;
+    line-height: 1.1;
+}
+
+.second-content p {
+    margin-top: 20px;
+    color: #999;
+    line-height: 1.8;
+}
+
+
+/* ================= REGISTRATION ================= */
+
+.registration {
+    padding: 110px 6%;
+}
+
+.registration-box {
+    max-width: 720px;
+    margin: auto;
+    padding: 45px;
+    background: linear-gradient(145deg,#111,#080808);
+    border: 1px solid #252525;
+    border-radius: 28px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.45);
+}
+
+.registration-box h2 {
+    font-size: clamp(32px,6vw,52px);
+    line-height: 1;
+}
+
+.registration-box h2 span {
+    color: #f5b400;
+}
+
+.registration-box > p {
+    margin: 18px 0 30px;
+    color: #999;
+    line-height: 1.6;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ddd;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px;
+    background: #050505;
+    border: 1px solid #282828;
+    border-radius: 12px;
+    outline: none;
+    color: #fff;
+    transition: .3s;
+}
+
+.form-group input:focus {
+    border-color: #f5b400;
+    box-shadow: 0 0 0 3px rgba(245,180,0,.08);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 17px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 12px;
+    background: #f5b400;
+    color: #050505;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+}
+
+.submit-button:disabled {
+    opacity: .65;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* ================= SUCCESS ================= */
+
+#success {
+    display: none;
+    text-align: center;
+    animation: successAppear .7s ease;
+}
+
+.success-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f5b400;
+    color: #050505;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+#success h3 {
+    font-size: 30px;
+}
+
+#success p {
+    max-width: 500px;
+    margin: 15px auto 25px;
+    color: #999;
+    line-height: 1.7;
+}
+
+
+/* ================= WHATSAPP ================= */
+
+.whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 22px;
+    background: #25D366;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 12px 30px rgba(37,211,102,.18);
+}
+
+.whatsapp-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 35px rgba(37,211,102,.28);
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    padding: 35px 6%;
+    border-top: 1px solid #151515;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+}
+
+footer strong {
+    color: #f5b400;
+}
+
+
+/* ================= REVEAL ================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .9s ease, transform .9s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes loading {
+    0% {
+        transform: translateX(-120%);
+    }
+
+    100% {
+        transform: translateX(280%);
+    }
+}
+
+@keyframes pulse {
+    0%,100% {
+        opacity: .5;
+        transform: scale(.97);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.03);
+    }
+}
+
+@keyframes floating {
+    0%,100% {
+        transform: translateY(0) rotate(1deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(-1deg);
+    }
+}
+
+@keyframes successAppear {
+    from {
+        opacity: 0;
+        transform: scale(.9) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px) {
+
+    header {
+        padding: 15px 5%;
+    }
+
+    .brand {
+        font-size: 15px;
+    }
+
+    .hero {
+        padding-top: 120px;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .hero h1 {
+        font-size: 52px;
+    }
+
+    .hero-text {
+        font-size: 16px;
+    }
+
+    .hero-visual {
+        order: -1;
+    }
+
+    .image-card {
+        width: min(82%,330px);
+    }
+
+    .image-card img {
+        height: 500px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .second-image {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .second-image img {
+        height: 500px;
+    }
+
+    .registration-box {
+        padding: 28px 20px;
+    }
+
+    .section {
+        padding: 80px 6%;
+    }
+}
+
+
+@media(max-width:420px) {
+
+    .hero h1 {
+        font-size: 44px;
+    }
+
+    .image-card img {
+        height: 450px;
+    }
+
+    .second-image img {
+        height: 450px;
+    }
+
+    .header-badge {
+        display: none;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= LOADER ================= -->
+
+<div id="loader">
+
+    <div class="loader-logo">
+        JE VEUX <span>MA PART</span>
+    </div>
+
+    <div class="loader-line"></div>
+
+</div>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="brand">
+        JE VEUX <span>MA PART</span>
+    </div>
+
+    <div class="header-badge">
+        MASTER CLASS
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <div class="hero-content reveal">
+
+            <div class="badge">
+                MASTER CLASS • 7 JOURS
+            </div>
+
+            <h1>
+                Je veux<br>
+                <span>ma part.</span>
+            </h1>
+
+            <p class="hero-text">
+                Apprends à créer, présenter et vendre
+                tes propres produits digitaux,
+                même si tu pars de zéro.
+            </p>
+
+            <button
+                class="hero-button"
+                onclick="goToRegistration()"
+            >
+                JE VEUX M'INSCRIRE
+                <span>→</span>
+            </button>
+
+        </div>
+
+
+        <div class="hero-visual reveal">
+
+            <div class="image-card">
+
+                <img
+                    src="image/image1.jpg"
+                    alt="Je veux ma part"
+                >
+
+                <div class="image-overlay">
+
+                    <strong>
+                        Ton idée peut devenir un produit.
+                    </strong>
+
+                    <small>
+                        Commence maintenant.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PRESENTATION ================= -->
+
+<section class="section">
+
+    <div class="section-container">
+
+        <div class="reveal">
+
+            <div class="badge">
+                POURQUOI CETTE MASTER CLASS ?
+            </div>
+
+            <h2 class="section-title">
+                Ne regarde plus les autres<br>
+                <span>
+                    construire leur part.
+                </span>
+            </h2>
+
+            <p class="section-subtitle">
+                Pendant cette Master Class,
+                tu vas découvrir une méthode simple
+                pour passer d'une idée à une véritable
+                offre digitale que tu peux présenter
+                à des clients.
+            </p>
+
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature reveal">
+
+                <div class="feature-number">
+                    01
+                </div>
+
+                <h3>
+                    Trouver ton idée
+                </h3>
+
+                <p>
+                    Identifier une idée de produit
+                    qui répond à un besoin réel.
+                </p>
+
+            </div>
+
+
+            <div class="feature reveal">
+
+                <div class="feature-number">
+                    02
+                </div>
+
+                <h3>
+                    Créer ton produit
+                </h3>
+
+                <p>
+                    Transformer ton savoir ou ton idée
+                    en une offre digitale claire.
+                </p>
+
+            </div>
+
+
+            <div class="feature reveal">
+
+                <div class="feature-number">
+                    03
+                </div>
+
+                <h3>
+                    Apprendre à vendre
+                </h3>
+
+                <p>
+                    Découvrir comment présenter ton offre
+                    et trouver tes premiers prospects.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="second-image">
+
+            <div class="photo reveal">
+
+                <img
+                    src="image/image2.jpg"
+                    alt="Master Class Je veux ma part"
+                >
+
+            </div>
+
+
+            <div class="second-content reveal">
+
+                <div class="badge">
+                    PAS À PAS
+                </div>
+
+                <h3>
+                    Tu n'as pas besoin
+                    d'être un expert
+                    pour commencer.
+                </h3>
+
+                <p>
+                    L'objectif est de te donner
+                    une direction claire,
+                    des étapes concrètes
+                    et surtout une première action
+                    à réaliser.
+                </p>
+
+                <button
+                    class="hero-button"
+                    onclick="goToRegistration()"
+                >
+                    COMMENCER
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= INSCRIPTION ================= -->
+
+<section
+    class="registration"
+    id="inscription"
+>
+
+    <div class="registration-box reveal">
+
+
+        <div id="form-container">
+
+            <div class="badge">
+                INSCRIPTION
+            </div>
+
+            <h2>
+                Prends ta place<br>
+                <span>
+                    maintenant.
+                </span>
+            </h2>
+
+            <p>
+                Remplis le formulaire ci-dessous
+                pour rejoindre la Master Class.
+            </p>
+
+
+            <form id="registrationForm">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Nom et prénom
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Ex : Caleb OLOSSOUMARE"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Adresse Gmail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="exemple@gmail.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="whatsapp">
+                        Numéro WhatsApp
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="whatsapp"
+                        placeholder="+229 XX XX XX XX"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    VALIDER MON INSCRIPTION →
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= SUCCESS ================= -->
+
+        <div id="success">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h3>
+                Inscription enregistrée !
+            </h3>
+
+            <p>
+                Félicitations ! Tu viens de faire
+                ton premier pas.
+
+                La prochaine étape sera de rejoindre
+                la communauté WhatsApp.
+            </p>
+
+            <a
+                href="https://chat.whatsapp.com/L1FH3cjwCd07q4OCRdna3F"
+                class="whatsapp-button"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                REJOINDRE LE GROUPE WHATSAPP →
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026
+        <strong>
+            Je veux ma part
+        </strong>
+        — Master Class
+    </p>
+
+</footer>
+
+
+<!-- ================= FIREBASE + JAVASCRIPT ================= -->
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =====================================================
+   CONFIGURATION FIREBASE
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCC4is9XdPiX72BcNo3IfIeXEM1aLUlo9s",
+
+    authDomain:
+        "je-veux-ma-part.firebaseapp.com",
+
+    projectId:
+        "je-veux-ma-part",
+
+    storageBucket:
+        "je-veux-ma-part.firebasestorage.app",
+
+    messagingSenderId:
+        "7810797485",
+
+    appId:
+        "1:7810797485:web:d9616a156692e3bc669b24"
+};
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+window.addEventListener("load", function() {
+
+    setTimeout(function() {
+
+        const loader =
+            document.getElementById("loader");
+
+        loader.classList.add("hide");
+
+        activateReveal();
+
+    }, 1200);
+
+});
+
+
+/* =====================================================
+   SCROLL VERS INSCRIPTION
+===================================================== */
+
+window.goToRegistration = function() {
+
+    document
+        .getElementById("inscription")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+};
+
+
+/* =====================================================
+   FORMULAIRE
+===================================================== */
+
+const form =
+    document.getElementById("registrationForm");
+
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        /* ================= DONNÉES ================= */
+
+        const name =
+            document
+                .getElementById("name")
+                .value
+                .trim();
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+        const whatsapp =
+            document
+                .getElementById("whatsapp")
+                .value
+                .trim();
+
+
+        /* ================= VALIDATION ================= */
+
+        if (!name || !email || !whatsapp) {
+
+            alert(
+                "Veuillez remplir tous les champs."
+            );
+
+            return;
+        }
+
+
+        /* ================= BOUTON ================= */
+
+        const button =
+            document.querySelector(
+                ".submit-button"
+            );
+
+        button.disabled = true;
+
+        button.textContent =
+            "ENREGISTREMENT...";
+
+
+        /* ================= FIREBASE ================= */
+
+        try {
+
+            await addDoc(
+                collection(
+                    db,
+                    "inscriptions"
+                ),
+                {
+
+                    nom: name,
+
+                    email: email,
+
+                    whatsapp: whatsapp,
+
+                    dateInscription:
+                        serverTimestamp(),
+
+                    statut:
+                        "inscrit",
+
+                    formation:
+                        "Je veux ma part"
+
+                }
+            );
+
+
+            /* ================= SUCCÈS ================= */
+
+            document
+                .getElementById(
+                    "form-container"
+                )
+                .style.display = "none";
+
+
+            document
+                .getElementById(
+                    "success"
+                )
+                .style.display = "block";
+
+
+            form.reset();
+
+
+        } catch (error) {
+
+            console.error(
+                "Erreur Firebase :",
+                error
+            );
+
+
+            alert(
+                "Impossible d'enregistrer ton inscription. Vérifie ta connexion Internet puis réessaie."
+            );
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "VALIDER MON INSCRIPTION →";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ANIMATION DES SECTIONS
+===================================================== */
+
+function activateReveal() {
+
+    const elements =
+        document.querySelectorAll(
+            ".reveal"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+            function(entries) {
+
+                entries.forEach(
+                    function(entry) {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target
+                                .classList
+                                .add("active");
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+
+    elements.forEach(
+        function(element) {
+
+            observer.observe(element);
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>
